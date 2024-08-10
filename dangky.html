@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        input {
+            margin: 10px;
+            padding: 10px;
+            width: 80%;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Tạo Tài Khoản</h2>
+    <input type="text" id="username" placeholder="Tên đăng nhập">
+    <input type="password" id="password" placeholder="Mật khẩu">
+    <button onclick="register()">Đăng Ký</button>
+
+    <script>
+        function register() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+
+            if (username && password) {
+                localStorage.setItem(username, password);
+                alert("Đăng ký thành công!");
+                window.location.href = "login.html";
+            } else {
+                alert("Vui lòng nhập tên đăng nhập và mật khẩu.");
+            }
+        }
+    </script>
+
+</body>
+</html>
