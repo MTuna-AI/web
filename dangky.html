@@ -4,33 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Ký</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #login-section {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
 </head>
 <body>
-    <h1>Đăng Ký Tài Khoản</h1>
-    <form id="registerForm">
-        <label for="username">Tên đăng nhập:</label><br>
-        <input type="text" id="username" name="username" required><br><br>
-        <label for="password">Mật khẩu:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <button type="submit">Đăng ký</button>
-    </form>
+    <div class="container">
+        <h1>Đăng Ký</h1>
+        <form id="registerForm">
+            <label for="newUsername">Tên đăng nhập:</label><br>
+            <input type="text" id="newUsername" name="newUsername" required><br><br>
+            <label for="newPassword">Mật khẩu:</label><br>
+            <input type="password" id="newPassword" name="newPassword" required><br><br>
+            <button type="submit">Đăng ký</button>
+        </form>
+
+        <div id="login-section">
+            <p>Nếu đã có tài khoản, hãy đăng nhập:</p>
+            <button onclick="window.location.href='dangnhap.html'">Đăng nhập</button>
+        </div>
+    </div>
 
     <script>
         document.getElementById("registerForm").onsubmit = function(event) {
             event.preventDefault();  // Ngăn chặn hành vi submit mặc định
-            
-            // Lấy giá trị từ các trường nhập liệu
-            const username = document.getElementById("username").value;
-            const password = document.getElementById("password").value;
-            
-            // Lưu trữ tài khoản vào LocalStorage
-            localStorage.setItem("username", username);
-            localStorage.setItem("password", password);
-            
-            alert("Đăng ký thành công!");
 
-            // Chuyển hướng sang trang đăng nhập
-            window.location.href = "dangnhap.html";
+            // Lấy giá trị từ các trường nhập liệu
+            const newUsername = document.getElementById("newUsername").value;
+            const newPassword = document.getElementById("newPassword").value;
+
+            // Lưu trữ thông tin tài khoản vào LocalStorage
+            localStorage.setItem("username", newUsername);
+            localStorage.setItem("password", newPassword);
+
+            alert("Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.");
+            window.location.href = "dangnhap.html";  // Chuyển hướng đến trang đăng nhập
         };
     </script>
 </body>
