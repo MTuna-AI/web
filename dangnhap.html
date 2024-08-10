@@ -59,17 +59,28 @@
     </div>
 
     <script>
+        // Khi trang được tải, tự động điền tên đăng nhập và mật khẩu từ localStorage
+        window.onload = function() {
+            const storedUsername = localStorage.getItem("username");
+            const storedPassword = localStorage.getItem("password");
+
+            if (storedUsername && storedPassword) {
+                document.getElementById("username").value = storedUsername;
+                document.getElementById("password").value = storedPassword;
+            }
+        };
+
         document.getElementById("loginForm").onsubmit = function(event) {
             event.preventDefault();  // Ngăn chặn hành vi submit mặc định
-            
+
             // Lấy giá trị từ các trường nhập liệu
             const enteredUsername = document.getElementById("username").value;
             const enteredPassword = document.getElementById("password").value;
-            
-            // Lấy tài khoản đã lưu trữ từ LocalStorage
+
+            // Lấy tài khoản đã lưu trữ từ localStorage
             const storedUsername = localStorage.getItem("username");
             const storedPassword = localStorage.getItem("password");
-            
+
             // Kiểm tra tài khoản và mật khẩu
             if (enteredUsername === storedUsername && enteredPassword === storedPassword) {
                 alert("Đăng nhập thành công!");
