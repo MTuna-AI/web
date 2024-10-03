@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chuyển Đổi Ảnh Sang PNG</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #canvas {
+            display: none;
+        }
+        #downloadLinks, #printButtons {
+            margin-top: 20px;
+        }
+        .downloadLink, .printButton {
+            display: none;
+            margin: 5px;
+        }
+        #convertedImages {
+            margin-top: 20px;
+        }
+        #convertedImages img {
+            max-width: 100%; /* Giới hạn chiều rộng ảnh */
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chuyển Đổi Ảnh Sang PNG</h1>
+    <input type="file" id="inputImages" accept="image/*" multiple>
+    <canvas id="canvas"></canvas>
+    <div id="downloadLinks"></div>
+    <div id="printButtons"></div>
+    <div id="convertedImages"></div>
+
+    <script>
+        document.getElementById('inputImages').addEventListener('change', function(event) {
+            const files = event.target.files;
+            const downloadLinksContainer = document.getElementById('downloadLinks');
+            const printButtonsContainer = document.getElementById('printButtons');
+            const convertedImagesContainer = document.getElementById('convertedImages');
+
+            // Xóa các nội dung trước đó
+            downloadLinksContainer.innerHTML = '';
+            printButtonsContainer.innerHTML = '';
+            convertedImagesContainer.innerHTML = '';
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.getElementById('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+
+                        // Chuyển đổi ảnh sang PNG
+                        const pngDataUrl = canvas.toDataURL('image/png');
+
+                        // Tạo liên kết tải xuống
+                        const downloadLink = document.createElement('a');
+                        downloadLink.href = pngDataUrl;
+                        downloadLink.download = 'converted_image_' + (i + 1) + '.png';
+                        downloadLink.className = 'downloadLink';
+                        downloadLink.innerText = 'Tải Xuống Ảnh ' + (i + 1);
+                        downloadLinksContainer.appendChild(downloadLink);
+
+                        // Tạo nút in
+                        const printButton = document.createElement('button');
+                        printButton.className = 'printButton';
+                        printButton.innerText = 'In Ảnh ' + (i + 1);
+                        printButton.onclick = function() {
+                            const printWindow = window.open('', '_blank');
+                            printWindow.document.write('<html><head><title>In Ảnh</title></head><body>');
+                            printWindow.document.write('<img src="' + pngDataUrl + '" style="width:100%;"/>');
+                            printWindow.document.write('</body></html>');
+                            printWindow.document.close();
+                            printWindow.print();
+                        };
+                        printButtonsContainer.appendChild(printButton);
+
+                        // Hiện ảnh đã chuyển đổi
+                        const convertedImage = document.createElement('img');
+                        convertedImage.src = pngDataUrl;
+                        convertedImagesContainer.appendChild(convertedImage);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
